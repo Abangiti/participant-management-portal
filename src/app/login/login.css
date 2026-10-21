@@ -1,0 +1,29 @@
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f9;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+  border: none;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.login-card h2 {
+  font-weight: 700;
+  color: #212529;
+}
+
+.login-card .btn {
+  padding: 10px;
+  font-weight: 600;
+  background-color: rgb(242, 143, 4);
+
+}

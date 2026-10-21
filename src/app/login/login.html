@@ -1,0 +1,50 @@
+<div class="login-page">
+  <div class="card login-card shadow">
+    <div class="card-body p-4 p-md-5">
+      <h2 class="text-center mb-2">Participant Portal</h2>
+      <p class="text-center text-muted mb-4">
+        Sign in to your account
+      </p>
+
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            id="username"
+            type="text"
+            class="form-control"
+            placeholder="Enter your username"
+            [(ngModel)]="username"
+            name="username"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            placeholder="Enter your password"
+            [(ngModel)]="password"
+            name="password"
+          />
+        </div>
+
+        <div
+          *ngIf="message"
+          class="alert"
+          [class.alert-success]="messageType === 'success'"
+          [class.alert-danger]="messageType === 'error'"
+          role="alert"
+        >
+          {{ message }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
