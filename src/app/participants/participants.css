@@ -1,0 +1,25 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #0b1f33;
+}
+
+.navbar {
+  background-color: #061426 !important;
+}
+
+.navbar-brand {
+  font-size: 1.1rem;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  background-color: #132b42;
+  color: #ffffff;
+}
+
+.card .text-muted {
+  color: #c0cfdd !important;
+}
