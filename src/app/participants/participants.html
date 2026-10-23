@@ -1,7 +1,7 @@
 
-<nav class="navbar navbar-dark bg-primary shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="/participants">
+<nav class="navbar navbar-dark shadow-sm">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" routerLink="/participants">
       Participant Management Portal
     </a>
 
@@ -15,14 +15,80 @@
   </div>
 </nav>
 
-<main class="container py-5">
-  <div class="card shadow-sm">
+<main class="container-fluid p-4">
+  <section class="card participant-card shadow-sm">
     <div class="card-body p-4">
-      <h1 class="h3 mb-3">Participants</h1>
 
-      <p class="text-muted mb-0">
-        Welcome to the Participant Management Portal.
+      <h1 class="h3 fw-bold mb-2">Participant Banks</h1>
+
+      <p class="text-muted mb-4">
+        Manage and view the list of participant banks.
       </p>
+
+      <div class="search-container mb-4">
+        <label for="bankSearch" class="form-label">
+          Search participant banks
+        </label>
+
+        <input
+          id="bankSearch"
+          type="text"
+          class="form-control"
+          placeholder="Search by bank name or BIC..."
+          [(ngModel)]="searchTerm"
+          name="bankSearch"
+        />
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle participant-table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Bank Name</th>
+              <th scope="col">BIC</th>
+              <th scope="col">Short Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let participant of filteredParticipants">
+              <td>{{ participant.id }}</td>
+              <td class="fw-semibold">{{ participant.name }}</td>
+              <td>{{ participant.bic }}</td>
+              <td>{{ participant.shortName }}</td>
+              <td>{{ participant.email }}</td>
+              <td>{{ participant.phoneNumber }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'text-bg-success': participant.status === 'ACTIVE',
+                    'text-bg-secondary': participant.status === 'INACTIVE'
+                  }"
+                >
+                  {{ participant.status }}
+                </span>
+              </td>
+            </tr>
+
+            <tr *ngIf="filteredParticipants.length === 0">
+              <td colspan="7" class="text-center py-4">
+                No participant banks found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        Showing {{ filteredParticipants.length }}
+        of {{ participants.length }} participant banks.
+      </p>
+
     </div>
-  </div>
+  </section>
 </main>
