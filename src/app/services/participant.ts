@@ -67,4 +67,24 @@ export class ParticipantService {
       ...participant
     });
   }
+  findById(id: number): Participant | undefined {
+  return this.participants.find(participant => participant.id === id);
+}
+
+update(id: number, updatedParticipant: Omit<Participant, 'id'>): boolean {
+  const index = this.participants.findIndex(
+    participant => participant.id === id
+  );
+
+  if (index === -1) {
+    return false;
+  }
+
+  this.participants[index] = {
+    id,
+    ...updatedParticipant
+  };
+
+  return true;
+}
 }

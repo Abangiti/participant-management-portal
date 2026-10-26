@@ -17,7 +17,9 @@
 <main class="container p-4">
   <section class="card participant-card shadow-sm">
     <div class="card-body p-4">
-      <h1 class="h3 fw-bold mb-2">Register Participant</h1>
+      <h1 class="h3 fw-bold mb-2">
+  {{ isEditMode ? 'Edit Participant' : 'Register Participant' }}
+</h1>
       <p class="text-muted mb-4">
         Enter the details of the new participant bank.
       </p>
@@ -104,7 +106,7 @@
             class="btn btn-primary"
             [disabled]="participantForm.invalid"
           >
-            Save Participant
+           {{ isEditMode ? 'Save Changes' : 'Save Participant' }}
           </button>
 
           <button

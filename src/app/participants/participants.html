@@ -1,4 +1,4 @@
-
+```html
 <nav class="navbar navbar-dark shadow-sm">
   <div class="container-fluid px-4">
     <a class="navbar-brand fw-bold" routerLink="/participants">
@@ -19,22 +19,26 @@
   <section class="card participant-card shadow-sm">
     <div class="card-body p-4">
 
-      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-2">
-  <h1 class="h3 fw-bold mb-0">Participant Banks</h1>
+      <!-- Page heading and Add button -->
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-2"
+      >
+        <h1 class="h3 fw-bold mb-0">Participant Banks</h1>
 
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="addParticipant()"
-  >
-    + Add Participant
-  </button>
-</div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addParticipant()"
+        >
+          + Add Participant
+        </button>
+      </div>
 
-<p class="text-muted mb-4">
-  Manage and view the list of participant banks.
-</p>
+      <p class="text-muted mb-4">
+        Manage and view the list of participant banks.
+      </p>
 
+      <!-- Search -->
       <div class="search-container mb-4">
         <label for="bankSearch" class="form-label">
           Search participant banks
@@ -50,6 +54,7 @@
         />
       </div>
 
+      <!-- Participant table -->
       <div class="table-responsive">
         <table class="table table-hover align-middle participant-table">
           <thead>
@@ -61,17 +66,26 @@
               <th scope="col">Email</th>
               <th scope="col">Phone Number</th>
               <th scope="col">Status</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
 
           <tbody>
             <tr *ngFor="let participant of filteredParticipants">
               <td>{{ participant.id }}</td>
-              <td class="fw-semibold">{{ participant.name }}</td>
+
+              <td class="fw-semibold">
+                {{ participant.name }}
+              </td>
+
               <td>{{ participant.bic }}</td>
+
               <td>{{ participant.shortName }}</td>
+
               <td>{{ participant.email }}</td>
+
               <td>{{ participant.phoneNumber }}</td>
+
               <td>
                 <span
                   class="badge"
@@ -83,10 +97,22 @@
                   {{ participant.status }}
                 </span>
               </td>
+
+              <!-- Edit action -->
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-info"
+                  (click)="editParticipant(participant.id)"
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
 
+            <!-- Empty search results -->
             <tr *ngIf="filteredParticipants.length === 0">
-              <td colspan="7" class="text-center py-4">
+              <td colspan="8" class="text-center py-4">
                 No participant banks found
               </td>
             </tr>
@@ -94,6 +120,7 @@
         </table>
       </div>
 
+      <!-- Participant count -->
       <p class="text-muted mt-3 mb-0">
         Showing {{ filteredParticipants.length }}
         of {{ participants.length }} participant banks.
@@ -102,3 +129,4 @@
     </div>
   </section>
 </main>
+```

@@ -43,4 +43,7 @@ export class Participants {
   logout(): void {
     this.router.navigate(['/login']);
   }
+  editParticipant(id: number): void {
+  this.router.navigate(['/participants/edit', id]);
+}
 }

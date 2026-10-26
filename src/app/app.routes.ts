@@ -8,5 +8,6 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'participants', component: Participants },
   { path: 'participants/new', component: ParticipantForm },
+  { path: 'participants/edit/:id', component: ParticipantForm },
   { path: '**', redirectTo: 'login' }
 ];
