@@ -34,10 +34,6 @@
         </button>
       </div>
 
-      <p class="text-muted mb-4">
-        Manage and view the list of participant banks.
-      </p>
-
       <!-- Search -->
       <div class="search-container mb-4">
         <label for="bankSearch" class="form-label">
@@ -54,8 +50,43 @@
         />
       </div>
 
+      <!-- Loading message -->
+      <div
+        *ngIf="loading"
+        class="text-center py-4"
+        role="status"
+      >
+        <div
+          class="spinner-border text-primary"
+          aria-hidden="true"
+        ></div>
+        <p class="text-muted mt-2 mb-0">
+          Loading participant banks...
+        </p>
+      </div>
+
+      <!-- Error message -->
+      <div
+        *ngIf="errorMessage"
+        class="alert alert-danger"
+        role="alert"
+      >
+        {{ errorMessage }}
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger ms-2"
+          (click)="loadParticipants()"
+        >
+          Retry
+        </button>
+      </div>
+
       <!-- Participant table -->
-      <div class="table-responsive">
+      <div
+        class="table-responsive"
+        *ngIf="!loading && !errorMessage"
+      >
         <table class="table table-hover align-middle participant-table">
           <thead>
             <tr>
@@ -73,47 +104,43 @@
           <tbody>
             <tr *ngFor="let participant of filteredParticipants">
               <td>{{ participant.id }}</td>
-
-              <td class="fw-semibold">
-                {{ participant.name }}
-              </td>
-
+              <td>{{ participant.name }}</td>
               <td>{{ participant.bic }}</td>
-
               <td>{{ participant.shortName }}</td>
-
               <td>{{ participant.email }}</td>
-
               <td>{{ participant.phoneNumber }}</td>
-
               <td>
                 <span
                   class="badge"
-                  [ngClass]="{
-                    'text-bg-success': participant.status === 'ACTIVE',
-                    'text-bg-secondary': participant.status === 'INACTIVE'
-                  }"
+                  [ngClass]="participant.status === 'ACTIVE'
+                    ? 'bg-success'
+                    : 'bg-secondary'"
                 >
                   {{ participant.status }}
                 </span>
               </td>
-
-              <!-- Edit action -->
               <td>
                 <button
                   type="button"
-                  class="btn btn-sm btn-outline-info"
+                  class="btn btn-sm btn-primary me-2"
                   (click)="editParticipant(participant.id)"
                 >
                   Edit
                 </button>
+
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  (click)="deleteParticipant(participant.id)"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
 
-            <!-- Empty search results -->
             <tr *ngIf="filteredParticipants.length === 0">
               <td colspan="8" class="text-center py-4">
-                No participant banks found
+                No participant banks found.
               </td>
             </tr>
           </tbody>
@@ -121,7 +148,10 @@
       </div>
 
       <!-- Participant count -->
-      <p class="text-muted mt-3 mb-0">
+      <p
+        *ngIf="!loading && !errorMessage"
+        class="text-muted mt-3 mb-0"
+      >
         Showing {{ filteredParticipants.length }}
         of {{ participants.length }} participant banks.
       </p>
@@ -129,4 +159,3 @@
     </div>
   </section>
 </main>
-```
