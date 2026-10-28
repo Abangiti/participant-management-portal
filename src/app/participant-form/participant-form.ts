@@ -9,11 +9,14 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ParticipantService } from '../services/participant';
+import { LoadingSpinner } from '../shared/loading-spinner/loading-spinner';
+
+
 
 @Component({
   selector: 'app-participant-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LoadingSpinner],
   templateUrl: './participant-form.html',
   styleUrl: './participant-form.css'
 })
@@ -83,55 +86,62 @@ export class ParticipantForm {
     });
   }
 
-  save(): void {
-    if (this.form.invalid || this.isSaving) {
-      this.form.markAllAsTouched();
-      return;
-    }
 
-    const formValue = this.form.getRawValue();
-
-    const participantData = {
-      name: formValue.name.trim(),
-      bic: formValue.bic.trim().toUpperCase(),
-      shortName: formValue.shortName.trim(),
-      address: formValue.address.trim(),
-      email: formValue.email.trim(),
-      phoneNumber: formValue.phoneNumber.trim(),
-      status: formValue.status as 'ACTIVE' | 'INACTIVE'
-    };
-
-    this.isSaving = true;
-    this.errorMessage = '';
-
-    const request =
-      this.isEditMode && this.id !== null
-        ? this.participantService.update(this.id, participantData)
-        : this.participantService.add(participantData);
-
-    request.subscribe({
-      next: (response) => {
-        console.log(
-          this.isEditMode
-            ? 'Participant updated successfully:'
-            : 'Participant created successfully:',
-          response
-        );
-
-        this.isSaving = false;
-        this.router.navigate(['/participants']);
-      },
-      error: (error) => {
-        console.error('Failed to save participant:', error);
-
-        this.errorMessage = this.isEditMode
-          ? 'Failed to update participant. Please try again.'
-          : 'Failed to create participant. Please try again.';
-
-        this.isSaving = false;
-      }
-    });
+save(): void {
+  if (this.form.invalid || this.isSaving) {
+    this.form.markAllAsTouched();
+    return;
   }
+
+  const formValue = this.form.getRawValue();
+
+  const participantData = {
+    name: formValue.name.trim(),
+    bic: formValue.bic.trim().toUpperCase(),
+    shortName: formValue.shortName.trim(),
+    address: formValue.address.trim(),
+    email: formValue.email.trim(),
+    phoneNumber: formValue.phoneNumber.trim(),
+    status: formValue.status as 'ACTIVE' | 'INACTIVE'
+  };
+
+  this.isSaving = true;
+  this.errorMessage = '';
+
+  const request =
+    this.isEditMode && this.id !== null
+      ? this.participantService.update(this.id, participantData)
+      : this.participantService.add(participantData);
+
+  request.subscribe({
+    next: (response) => {
+      console.log(
+        this.isEditMode
+          ? 'Participant updated successfully:'
+          : 'Participant created successfully:',
+        response
+      );
+
+      const message = this.isEditMode
+        ? 'Bank updated successfully!'
+        : 'Bank created successfully!';
+
+      this.router.navigate(['/participants'], {
+        state: { notificationMessage: message }
+      });
+    },
+    error: (error) => {
+      console.error('Failed to save participant:', error);
+
+      this.errorMessage = this.isEditMode
+        ? 'Failed to update participant. Please try again.'
+        : 'Failed to create participant. Please try again.';
+
+      this.isSaving = false;
+    }
+  });
+}
+
 
   cancel(): void {
     this.router.navigate(['/participants']);

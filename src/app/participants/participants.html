@@ -19,6 +19,18 @@
   <section class="card participant-card shadow-sm">
     <div class="card-body p-4">
 
+      <!-- Success or error notification -->
+<app-notification-alert
+  [message]="notificationMessage"
+  [type]="notificationType"
+/>
+
+<!-- Loading spinner -->
+<app-loading-spinner
+  *ngIf="loading"
+  message="Loading participant banks..."
+/>
+
       <!-- Page heading and Add button -->
       <div
         class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-2"
@@ -159,3 +171,12 @@
     </div>
   </section>
 </main>
+
+<app-confirm-modal
+  *ngIf="showConfirmModal"
+  title="Delete participant bank"
+  message="Are you sure you want to delete this bank?"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+/>
+

@@ -5,11 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Participant } from '../participant';
 import { ParticipantService } from '../services/participant';
+import { LoadingSpinner } from '../shared/loading-spinner/loading-spinner';
+import { NotificationAlert } from '../shared/notification-alert/notification-alert';
+import { ConfirmModal } from '../shared/confirm-modal/confirm-modal';
 
 @Component({
   selector: 'app-participants',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,
+  LoadingSpinner,
+  NotificationAlert,
+  ConfirmModal],
   templateUrl: './participants.html',
   styleUrl: './participants.css'
 })
@@ -19,15 +25,31 @@ export class Participants implements OnInit {
   loading = false;
   errorMessage = '';
 
-  constructor(
-    private router: Router,
-    private participantService: ParticipantService,
-    private cdr: ChangeDetectorRef
-  ) {}
+showConfirmModal = false;
+selectedParticipantId: number | null = null;
 
-  ngOnInit(): void {
-    this.loadParticipants();
+notificationMessage = '';
+notificationType: 'success' | 'error' = 'success';
+
+
+constructor(
+  private router: Router,
+  private participantService: ParticipantService,
+  private cdr: ChangeDetectorRef
+) {
+  const navigation = this.router.getCurrentNavigation();
+  const message = navigation?.extras.state?.['notificationMessage'];
+
+  if (typeof message === 'string') {
+    this.notificationMessage = message;
+    this.notificationType = 'success';
   }
+}
+
+ngOnInit(): void {
+  this.loadParticipants();
+}
+
 
 
 
@@ -84,26 +106,40 @@ loadParticipants(): void {
     this.router.navigate(['/participants/edit', id]);
   }
 
-  deleteParticipant(id: number): void {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this participant bank?'
-    );
 
-    if (!confirmed) {
-      return;
-    }
+deleteParticipant(id: number): void {
+  this.selectedParticipantId = id;
+  this.showConfirmModal = true;
+}
 
-    this.participantService.delete(id).subscribe({
-      next: () => {
-        console.log('Participant deleted successfully:', id);
-        this.loadParticipants();
-      },
-      error: (error) => {
-        console.error('Failed to delete participant:', error);
+cancelDelete(): void {
+  this.showConfirmModal = false;
+  this.selectedParticipantId = null;
+}
 
-        this.errorMessage =
-          'Failed to delete participant. Please try again.';
-      }
-    });
+confirmDelete(): void {
+  if (this.selectedParticipantId === null) {
+    return;
   }
+
+  const id = this.selectedParticipantId;
+
+  this.showConfirmModal = false;
+
+  this.participantService.delete(id).subscribe({
+    next: () => {
+      this.notificationMessage = 'Bank deleted successfully!';
+      this.notificationType = 'success';
+      this.selectedParticipantId = null;
+      this.loadParticipants();
+    },
+    error: (error) => {
+      console.error('Failed to delete bank:', error);
+      this.notificationMessage = 'Failed to delete bank. Please try again.';
+      this.notificationType = 'error';
+      this.selectedParticipantId = null;
+    }
+  });
+}
+
 }
