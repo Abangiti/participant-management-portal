@@ -68,4 +68,14 @@ export class ParticipantService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  uploadLogo(id: number, file: File): Observable<InstitutionResponse> {
+  const formData = new FormData();
+  formData.append('logo', file);
+
+  return this.http.post<InstitutionResponse>(
+    `http://localhost:9081/api/v1/participants/${id}/logo`,
+    formData
+  );
+}
 }

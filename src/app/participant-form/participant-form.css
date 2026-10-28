@@ -1,3 +1,75 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #0b1f33;
+  color: #ffffff;
+  padding: 1.5rem 0;
+}
+
+/* Form card */
+.participant-card,
+.card {
+  background-color: #132b42;
+  color: #ffffff;
+  border: 1px solid #1b3c59;
+  border-radius: 12px;
+}
+
+/* Headings and labels */
+h1,
+h2,
+h3,
+h4,
+h5,
+.form-label {
+  color: #ffffff;
+}
+
+.text-muted {
+  color: #b5c8dc !important;
+}
+
+/* Input fields and dropdowns */
+.form-control,
+.form-select {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border: 1px solid #41678a;
+  border-radius: 6px;
+}
+
+.form-control::placeholder {
+  color: #9bb0c7;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border-color: #66aaff;
+  box-shadow: 0 0 0 0.2rem rgb(102 170 255 / 20%);
+}
+
+/* Dropdown options */
+.form-select option {
+  background-color: #132b42;
+  color: #ffffff;
+}
+
+/* File upload */
+input[type="file"].form-control {
+  padding: 0.65rem;
+}
+
+/* Logo preview */
+img {
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Validation errors */
 .form-control.is-invalid,
 .form-select.is-invalid {
   border-color: #dc3545;
@@ -5,4 +77,189 @@
 
 .invalid-feedback {
   color: #ff7b86;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-secondary {
+  background-color: #294762;
+  border-color: #41678a;
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #355b7a;
+  color: #ffffff;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem 0;
+  }
+
+  .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Match the participant list theme */
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #0b1f33;
+  color: #ffffff;
+}
+
+/* Navbar */
+.form-navbar {
+  background-color: #222d4b;
+  border-bottom: 1px solid #183a59;
+  padding: 1rem;
+}
+
+.form-navbar .navbar-brand {
+  color: #ffffff;
+}
+
+.form-navbar .navbar-brand:hover {
+  color: #66aaff;
+}
+
+/* Login-style primary button */
+.btn-login {
+  background-color: #0d6efd;
+  border: 1px solid #0d6efd;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  color: #ffffff;
+}
+
+.btn-login:disabled {
+  opacity: 0.65;
+}
+
+/* Secondary buttons */
+.btn-back {
+  background-color: #294762;
+  border: 1px solid #41678a;
+  color: #ffffff;
+}
+
+.btn-back:hover {
+  background-color: #355b7a;
+  border-color: #41678a;
+  color: #ffffff;
+}
+
+/* Form card */
+.participant-card {
+  background-color: #132b42;
+  color: #ffffff;
+  border: 1px solid #294762;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border: 1px solid #41678a;
+}
+
+.form-control::placeholder {
+  color: #9bb0c7;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border-color: #66aaff;
+  box-shadow: 0 0 0 0.2rem rgb(102 170 255 / 20%);
+}
+
+.form-select option {
+  background-color: #132b42;
+  color: #ffffff;
+}
+
+/* Labels and helper text */
+.form-label {
+  color: #ffffff;
+}
+
+.form-text,
+.text-muted {
+  color: #b5c8dc !important;
+}
+
+/* Validation */
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #ff7b86;
+}
+
+@media (max-width: 768px) {
+  .container.p-4 {
+    padding: 1rem !important;
+  }
+
+  .participant-card .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Save button — matches the login button */
+.btn-login {
+  background-color: rgb(242, 143, 4);
+  border: 1px solid rgb(242, 143, 4);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #d97f00;
+  border-color: #d97f00;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(242, 143, 4, 0.25);
+}
+
+.btn-login:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Form card — subtle separation from the background */
+.participant-card {
+  background-color: #132b42;
+  color: #ffffff;
+  border: 1px solid #294762;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }

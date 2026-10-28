@@ -39,7 +39,7 @@
 
         <button
           type="button"
-          class="btn btn-primary"
+           class="btn btn-login"
           (click)="addParticipant()"
         >
           + Add Participant
@@ -103,6 +103,7 @@
           <thead>
             <tr>
               <th scope="col">ID</th>
+              <th scope="col">Logo</th>
               <th scope="col">Bank Name</th>
               <th scope="col">BIC</th>
               <th scope="col">Short Name</th>
@@ -115,7 +116,20 @@
 
           <tbody>
             <tr *ngFor="let participant of filteredParticipants">
-              <td>{{ participant.id }}</td>
+             <td>{{ participant.id }}</td>
+
+            <td>
+               <img
+                *ngIf="participant.logoPath"
+                 [src]="'http://localhost:9081' + participant.logoPath"
+                  [alt]="participant.name + ' logo'"
+                   class="participant-logo" />
+
+               <span *ngIf="!participant.logoPath" class="text-muted">
+                     No logo
+               </span>
+               </td>
+
               <td>{{ participant.name }}</td>
               <td>{{ participant.bic }}</td>
               <td>{{ participant.shortName }}</td>
@@ -151,7 +165,7 @@
             </tr>
 
             <tr *ngIf="filteredParticipants.length === 0">
-              <td colspan="8" class="text-center py-4">
+              <td colspan="9" class="text-center py-4">
                 No participant banks found.
               </td>
             </tr>

@@ -1,29 +1,103 @@
 
+/* Login page background */
 .login-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f4f6f9;
+  background-color: #0b1f33;
   padding: 20px;
+  color: #ffffff;
 }
 
+/* Login card */
 .login-card {
   width: 100%;
   max-width: 430px;
-  border: none;
+  border: 1px solid #294762;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: #132b42;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
+/* Login heading */
 .login-card h2 {
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
 }
 
+/* Labels */
+.login-card .form-label {
+  color: #ffffff;
+}
+
+/* Input fields */
+.login-card .form-control {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border: 1px solid #41678a;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.login-card .form-control::placeholder {
+  color: #9bb0c7;
+}
+
+.login-card .form-control:focus {
+  background-color: #0b1f33;
+  color: #ffffff;
+  border-color: #66aaff;
+  box-shadow: 0 0 0 0.2rem rgb(102 170 255 / 20%);
+}
+
+/* Orange login button */
 .login-card .btn {
+  width: 100%;
   padding: 10px;
   font-weight: 600;
   background-color: rgb(242, 143, 4);
+  border: 1px solid rgb(242, 143, 4);
+  color: #ffffff;
+  border-radius: 6px;
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
 
+.login-card .btn:hover:not(:disabled) {
+  background-color: #d97f00;
+  border-color: #d97f00;
+  box-shadow: 0 4px 10px rgba(242, 143, 4, 0.25);
+}
+
+.login-card .btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Helper text */
+.login-card .text-muted,
+.login-card .form-text {
+  color: #b5c8dc !important;
+}
+
+/* Validation messages */
+.login-card .invalid-feedback {
+  color: #ff7b86;
+}
+
+.login-card .form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-card .card-body {
+    padding: 1.25rem !important;
+  }
 }

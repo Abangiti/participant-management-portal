@@ -8,4 +8,5 @@ export interface Participant {
   email: string;
   phoneNumber: string;
   status: 'ACTIVE' | 'INACTIVE';
+  logoPath?: string | null;
 }

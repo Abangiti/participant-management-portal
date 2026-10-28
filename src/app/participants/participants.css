@@ -84,3 +84,35 @@
     padding: 1rem !important;
   }
 }
+.participant-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 4px;
+  background-color: #fff;
+}
+
+
+
+.btn-login {
+  background-color: rgb(242, 143, 4);
+  border: 1px solid rgb(242, 143, 4);
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #d97f00;
+  border-color: #d97f00;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(242, 143, 4, 0.25);
+}
+
+.btn-login:focus-visible {
+  outline: 2px solid #66aaff;
+  outline-offset: 3px;
+}

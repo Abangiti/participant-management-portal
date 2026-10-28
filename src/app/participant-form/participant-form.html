@@ -1,5 +1,6 @@
 
-<nav class="navbar navbar-dark bg-dark shadow-sm">
+
+<nav class="navbar form-navbar shadow-sm">
   <div class="container-fluid px-4">
     <a class="navbar-brand fw-bold" routerLink="/participants">
       Participant Management Portal
@@ -7,13 +8,14 @@
 
     <button
       type="button"
-      class="btn btn-outline-light"
+      class="btn btn-back"
       (click)="cancel()"
     >
       Back to Participants
     </button>
   </div>
 </nav>
+
 
 
 <main class="container p-4">
@@ -195,24 +197,83 @@
           </div>
         </div>
 
-        <!-- Form Actions -->
-        <div class="d-flex flex-wrap gap-2">
-          <button
-  type="submit"
-  class="btn btn-primary"
-  [disabled]="isSaving"
->
-  {{ isSaving ? 'Saving...' : 'Save' }}
-</button>
 
-          <button
-            type="button"
-            class="btn btn-outline-light"
-            (click)="cancel()"
-          >
-            Cancel
-          </button>
-        </div>
+<div class="mb-3">
+  <label for="logo" class="form-label">Participant Logo</label>
+
+  <!-- Display the logo already saved for this participant -->
+  <div *ngIf="isEditMode && existingLogoUrl && !logoPreview" class="mt-3">
+    <p class="form-label">Current logo</p>
+
+    <img
+      [src]="existingLogoUrl"
+      alt="Current participant logo"
+      class="img-thumbnail"
+      style="max-width: 150px; max-height: 150px; object-fit: contain;"
+    />
+  </div>
+
+  <!-- Choose a new logo -->
+  <input
+    id="logo"
+    type="file"
+    class="form-control"
+    accept="image/png,image/jpeg,image/webp,image/svg+xml"
+    (change)="onLogoSelected($event)"
+  />
+
+  <div class="form-text">
+    Accepted formats: PNG, JPG, WebP, SVG. Maximum size: 2 MB.
+  </div>
+
+  <div *ngIf="logoError" class="text-danger mt-2" role="alert">
+    {{ logoError }}
+  </div>
+
+  <!-- Preview the newly selected logo -->
+  <div *ngIf="logoPreview" class="mt-3">
+    <p class="form-label">Logo preview</p>
+
+    <img
+      [src]="logoPreview"
+      alt="Selected participant logo preview"
+      class="img-thumbnail"
+      style="max-width: 150px; max-height: 150px; object-fit: contain;"
+    />
+
+    <button
+      type="button"
+      class="btn btn-outline-secondary btn-sm d-block mt-2"
+      (click)="removeSelectedLogo()"
+    >
+      Remove selected logo
+    </button>
+  </div>
+</div>
+
+
+
+
+        <!-- Form Actions -->
+
+<!-- Form Actions -->
+<div class="d-flex flex-wrap gap-2">
+  <button
+    type="submit"
+     class="btn btn-login"
+    [disabled]="isSaving"
+  >
+    {{ isSaving ? 'Saving...' : 'Save' }}
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-back"
+    (click)="cancel()"
+  >
+    Cancel
+  </button>
+</div>
 
       </form>
     </div>

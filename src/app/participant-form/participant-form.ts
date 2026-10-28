@@ -26,6 +26,7 @@ export class ParticipantForm {
   form: FormGroup;
   isSaving = false;
   errorMessage = '';
+  existingLogoUrl: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,6 +69,9 @@ export class ParticipantForm {
   private loadParticipant(id: number): void {
     this.participantService.findById(id).subscribe({
       next: (participant) => {
+        this.existingLogoUrl = participant.logoPath
+  ? `http://localhost:9081${participant.logoPath}`
+  : null;
         this.form.patchValue({
           name: participant.name,
           bic: participant.bic,
@@ -76,6 +80,7 @@ export class ParticipantForm {
           email: participant.email,
           phoneNumber: participant.phoneNumber,
           status: participant.status
+
         });
       },
       error: (error) => {
@@ -86,9 +91,65 @@ export class ParticipantForm {
     });
   }
 
+onLogoSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+
+  this.logoError = '';
+
+  if (!file) {
+    return;
+  }
+
+  const allowedTypes = [
+    'image/png',
+    'image/jpeg',
+    'image/webp',
+    'image/svg+xml'
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    this.logoError = 'Please select a PNG, JPG, WebP, or SVG image.';
+    input.value = '';
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    this.logoError = 'The logo must be smaller than 2 MB.';
+    input.value = '';
+    return;
+  }
+
+  this.selectedLogo = file;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    this.logoPreview =
+      typeof reader.result === 'string' ? reader.result : null;
+
+  };
+
+  reader.onerror = () => {
+    this.logoError = 'Unable to preview this image. Please try another.';
+    this.selectedLogo = null;
+    this.logoPreview = null;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+removeSelectedLogo(): void {
+  this.selectedLogo = null;
+  this.logoPreview = null;
+  this.logoError = '';
+}
+
+
+
 
 save(): void {
-  if (this.form.invalid || this.isSaving) {
+  if (this.form.invalid || this.isSaving || this.logoError) {
     this.form.markAllAsTouched();
     return;
   }
@@ -115,33 +176,70 @@ save(): void {
 
   request.subscribe({
     next: (response) => {
-      console.log(
-        this.isEditMode
-          ? 'Participant updated successfully:'
-          : 'Participant created successfully:',
-        response
-      );
+      const bankId = this.isEditMode
+        ? this.id
+        : response.institution?.id;
 
-      const message = this.isEditMode
-        ? 'Bank updated successfully!'
-        : 'Bank created successfully!';
+      // No new logo was selected: finish saving normally.
+      if (!this.selectedLogo) {
+        this.finishSave(
+          this.isEditMode
+            ? 'Bank updated successfully!'
+            : 'Bank created successfully!'
+        );
+        return;
+      }
 
-      this.router.navigate(['/participants'], {
-        state: { notificationMessage: message }
-      });
+      // A logo needs a valid saved bank ID.
+      if (bankId == null) {
+        this.errorMessage =
+          'The bank was saved, but its ID was not returned. ' +
+          'Please reload the bank before uploading its logo.';
+        this.isSaving = false;
+        return;
+      }
+
+      this.participantService
+        .uploadLogo(bankId, this.selectedLogo)
+        .subscribe({
+          next: () => {
+            this.finishSave(
+              this.isEditMode
+                ? 'Bank and logo updated successfully!'
+                : 'Bank and logo created successfully!'
+            );
+          },
+          error: (error) => {
+            console.error('Logo upload failed:', error);
+            this.errorMessage =
+              error.friendlyMessage ??
+              'The bank was saved, but its logo upload failed. ' +
+              'Please try uploading the logo again.';
+            this.isSaving = false;
+          }
+        });
     },
     error: (error) => {
       console.error('Failed to save participant:', error);
-
-      this.errorMessage = this.isEditMode
-        ? 'Failed to update participant. Please try again.'
-        : 'Failed to create participant. Please try again.';
-
+      this.errorMessage =
+        error.friendlyMessage ??
+        (this.isEditMode
+          ? 'Failed to update participant. Please try again.'
+          : 'Failed to create participant. Please try again.');
       this.isSaving = false;
     }
   });
 }
 
+private finishSave(message: string): void {
+  this.router.navigate(['/participants'], {
+    state: { notificationMessage: message }
+  });
+}
+
+selectedLogo: File | null = null;
+logoPreview: string | null = null;
+logoError = '';
 
   cancel(): void {
     this.router.navigate(['/participants']);
