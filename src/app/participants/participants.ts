@@ -111,6 +111,7 @@ export class Participants implements OnInit {
   }
 
   logout(): void {
+    sessionStorage.removeItem('isLoggedIn');
     this.router.navigate(['/login']);
   }
 

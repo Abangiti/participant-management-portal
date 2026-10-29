@@ -31,6 +31,7 @@ export class Login {
       this.username === 'admin' &&
       this.password === 'Admin@123'
     ) {
+       sessionStorage.setItem('isLoggedIn', 'true');
       this.router.navigate(['/participants']);
     } else {
       this.message = 'Invalid username or password.';
