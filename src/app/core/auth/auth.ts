@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface LoginRequest {
   username: string;
@@ -24,7 +25,7 @@ export interface LoginResponse {
 export class Auth {
   private http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://localhost:9081/api/v1/auth/login';
+private readonly apiUrl = `${environment.apiUrl}/auth/login`;
 
   login(username: string, password: string): Observable<LoginResponse> {
     const body: LoginRequest = {
