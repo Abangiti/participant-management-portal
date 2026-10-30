@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Participant } from '../participant';
+import { environment } from '../../environments/environment';
 
 interface ParticipantsResponse {
   status: string;
@@ -21,8 +22,8 @@ interface InstitutionResponse {
   providedIn: 'root'
 })
 export class ParticipantService {
-  private readonly apiUrl =
-    'http://localhost:9081/acs-dev/api/institutions';
+ private readonly apiUrl =
+  `${environment.apiUrl.replace('/api/v1', '')}/acs-dev/api/institutions`;
 
   constructor(private http: HttpClient) {}
 
@@ -74,7 +75,7 @@ export class ParticipantService {
   formData.append('logo', file);
 
   return this.http.post<InstitutionResponse>(
-    `http://localhost:9081/api/v1/participants/${id}/logo`,
+    `${environment.apiUrl}/participants/${id}/logo`,
     formData
   );
 }

@@ -10,6 +10,7 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ParticipantService } from '../services/participant';
 import { LoadingSpinner } from '../shared/loading-spinner/loading-spinner';
+import { environment } from '../../environments/environment';
 
 
 
@@ -70,7 +71,7 @@ export class ParticipantForm {
     this.participantService.findById(id).subscribe({
       next: (participant) => {
         this.existingLogoUrl = participant.logoPath
-  ? `http://localhost:9081${participant.logoPath}`
+  ? `${environment.apiUrl.replace('/api/v1', '')}${participant.logoPath}`
   : null;
         this.form.patchValue({
           name: participant.name,

@@ -10,6 +10,8 @@ import { LoadingSpinner } from '../shared/loading-spinner/loading-spinner';
 import { NotificationAlert } from '../shared/notification-alert/notification-alert';
 import { ConfirmModal } from '../shared/confirm-modal/confirm-modal';
 import { NotificationService } from '../core/notification-service';
+import { Auth } from '../core/auth/auth';
+
 
 @Component({
   selector: 'app-participants',
@@ -19,7 +21,7 @@ import { NotificationService } from '../core/notification-service';
     FormsModule,
     LoadingSpinner,
     NotificationAlert,
-    ConfirmModal
+    ConfirmModal,
   ],
   templateUrl: './participants.html',
   styleUrl: './participants.css'
@@ -40,7 +42,8 @@ export class Participants implements OnInit {
     private router: Router,
     private participantService: ParticipantService,
     private cdr: ChangeDetectorRef,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+     private auth: Auth,
   ) {
     const navigation = this.router.getCurrentNavigation();
     const message = navigation?.extras.state?.['notificationMessage'];
@@ -111,9 +114,9 @@ export class Participants implements OnInit {
   }
 
   logout(): void {
-    sessionStorage.removeItem('isLoggedIn');
-    this.router.navigate(['/login']);
-  }
+  this.auth.logout();
+  this.router.navigate(['/login']);
+}
 
   editParticipant(id: number): void {
     this.router.navigate(['/participants/edit', id]);
